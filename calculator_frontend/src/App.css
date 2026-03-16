@@ -1,104 +1,190 @@
-/* CSS Variables for Theme Management */
-:root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+/* =========================================================
+   Calculator – Modern Light Theme
+   Colors from style guide:
+     primary:    #3b82f6
+     secondary:  #64748b
+     accent:     #06b6d4
+     error:      #EF4444
+     background: #f9fafb
+     surface:    #ffffff
+     text:       #111827
+   ========================================================= */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
-}
-
-.App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+/* --- App container: full-viewport centered background --- */
+.app-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+  min-height: 100vh;
+  background-color: #f9fafb;
+  padding: 16px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+/* --- Calculator panel --- */
+.calculator {
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  width: 360px;
+  max-width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(59, 130, 246, 0.15);
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
+/* --- Display area --- */
+.calculator-display {
+  background: linear-gradient(135deg, #eff6ff 0%, #f9fafb 100%);
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+/* Expression line (e.g. "12 +" shown above main display) */
+.expression {
   font-size: 14px;
+  color: #64748b;
+  font-weight: 400;
+  min-height: 20px;
+  word-break: break-all;
+  text-align: right;
+  letter-spacing: 0.3px;
+}
+
+/* Main number display */
+.main-display {
+  font-size: 42px;
+  font-weight: 700;
+  color: #111827;
+  word-break: break-all;
+  text-align: right;
+  line-height: 1.15;
+  transition: color 0.2s ease;
+  letter-spacing: -1px;
+}
+
+.main-display.error {
+  color: #EF4444;
+  font-size: 28px;
+  letter-spacing: 0;
+}
+
+/* --- Button grid --- */
+.calculator-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background-color: rgba(59, 130, 246, 0.08);
+  padding: 1px;
+}
+
+/* --- Base button style --- */
+.calc-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 72px;
+  font-size: 20px;
   font-weight: 600;
+  border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  outline: none;
+  background-color: #ffffff;
+  color: #111827;
+  font-family: inherit;
+  letter-spacing: 0.2px;
+  position: relative;
+  overflow: hidden;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+.calc-btn:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+  z-index: 1;
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+.calc-btn:active {
+  transform: scale(0.94);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* --- Digit buttons --- */
+.calc-btn--digit {
+  background-color: #ffffff;
+  color: #111827;
+}
+
+.calc-btn--digit:hover {
+  background-color: #eff6ff;
+}
+
+/* --- Operator buttons (÷, ×, −, +) --- */
+.calc-btn--operator {
+  background-color: #eff6ff;
+  color: #3b82f6;
+  font-size: 22px;
+}
+
+.calc-btn--operator:hover {
+  background-color: #dbeafe;
+}
+
+/* --- Action buttons (C, ⌫, %) --- */
+.calc-btn--action {
+  background-color: #f1f5f9;
+  color: #64748b;
+  font-size: 18px;
+}
+
+.calc-btn--action:hover {
+  background-color: #e2e8f0;
+}
+
+/* --- Equals button --- */
+.calc-btn--equals {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.calc-btn--equals:hover {
+  background-color: #2563eb;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.calc-btn--equals:active {
+  background-color: #1d4ed8;
+}
+
+/* --- Span-2 button (zero key, spans 2 columns) --- */
+.calc-btn--span-2 {
+  grid-column: span 2;
+  justify-content: flex-start;
+  padding-left: 28px;
+}
+
+/* --- Responsive: smaller screens --- */
+@media (max-width: 400px) {
+  .calculator {
+    width: 100%;
+    border-radius: 16px;
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+  .calc-btn {
+    height: 62px;
+    font-size: 18px;
+  }
+
+  .main-display {
+    font-size: 34px;
   }
 }
